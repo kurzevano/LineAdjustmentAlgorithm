@@ -15,7 +15,7 @@
             foreach (var word in wordsArray)
             {
                 var listWordsSum = listWords.Sum(s => s.Length);
-                if (listWords.Any() && listWordsSum + word.Length + listWords.Count - 1 >= lineWidth)
+                if (listWords.Count > 0 && listWordsSum + word.Length + listWords.Count - 1 >= lineWidth)
                 {
                     result.Add(AddSpaces(listWords, lineWidth));
                     listWords.Clear();
@@ -24,7 +24,7 @@
                 listWords.Add(word);
             }
 
-            if (listWords.Any())
+            if (listWords.Count > 0)
             {
                 result.Add(AddSpaces(listWords, lineWidth));
             }
@@ -34,7 +34,7 @@
 
         private string AddSpaces(IList<string> listWords, int lineWidth)
         {
-            if (!listWords.Any())
+            if (listWords.Count == 0)
             {
                 return string.Empty;
             }

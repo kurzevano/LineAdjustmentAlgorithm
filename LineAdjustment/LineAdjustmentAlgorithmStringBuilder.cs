@@ -22,21 +22,21 @@ namespace LineAdjustment
             }
             
             var wordsArray = input.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            var result = new StringBuilder();
+            var result = new StringBuilder(input.Length);
             var listWords = new List<string>();
 
             int currentLineLength = 0;
             foreach (var word in wordsArray)
             {
                 currentLineLength += word.Length;
-                if (listWords.Any() && currentLineLength + listWords.Count - 1 >= lineWidth)
+                if (listWords.Count > 0 && currentLineLength + listWords.Count - 1 >= lineWidth)
                 {
                     if (result.Length > 0)
                     {
                         result.Append('\n');
                     }
                     
-                    result.Append(this.addSpacesAlgorithm.AddSpaces(listWords, lineWidth));
+                    this.addSpacesAlgorithm.AddSpaces(listWords, lineWidth, result);
                     listWords.Clear();
                     currentLineLength = word.Length;
                 }
@@ -44,15 +44,17 @@ namespace LineAdjustment
                 listWords.Add(word);
             }
 
-            if (listWords.Any())
+            if (listWords.Count == 0)
             {
-                if (result.Length > 0)
-                {
-                    result.Append('\n');
-                }
-                
-                result.Append(this.addSpacesAlgorithm.AddSpaces(listWords, lineWidth));
+                return result.ToString();
             }
+            
+            if (result.Length > 0)
+            {
+                result.Append('\n');
+            }
+                
+            this.addSpacesAlgorithm.AddSpaces(listWords, lineWidth, result);
 
             return result.ToString();
         }
